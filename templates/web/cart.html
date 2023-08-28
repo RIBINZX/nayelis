@@ -1,0 +1,807 @@
+{% extends 'web/partials/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+    .shadow-lg {
+        -webkit-box-shadow: 0 0rem 0rem rgba(0, 0, 0, 0.175) !important;
+        box-shadow: 0 0rem 0rem rgba(0, 0, 0, 0.175) !important;
+
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 12px;
+    }
+
+    .product-image img {
+        width: 70px;
+        height: 70px;
+    }
+    
+
+    @media (min-width: 992px) {
+        .button-group ul li button {
+            width: 35%;
+            font: inherit;
+            letter-spacing: 0.04em;
+            padding: calc(8px + (12 - 8) * ((100vw - 320px) / (1920 - 320))) calc(14px + (20 - 14) * ((100vw - 320px) / (1920 - 320)));
+        }
+    }
+    @media (max-width: 500px) {
+        .product-image img {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    #useflex{
+        display: flex;
+        justify-content:center;
+    }
+    #crt-1{
+        display:flex;
+        justify-content: space-between;
+    }
+    #crt-2 p{
+        margin-bottom:0rem;
+    }
+    #cart-p{
+        margin-bottom:0rem;
+
+    }
+    #crt-3{
+        display:flex;
+        justify-content: space-between;
+        align-items:center;
+    }
+    #qty-box{
+        margin-top: 0px;
+    }
+
+    
+</style>
+<style>
+    #dlt1{
+        display:none;
+
+    }
+    @media (max-width: 899px) {
+    #dlt1{
+        display:initial; 
+    }
+    #dlt2{
+        display:none; 
+    }
+    #cartimg{
+        padding-bottom:2rem;
+    }
+    #carttxt{
+        padding: 0px 15px 0px 0px;
+    }
+
+</style>
+
+
+
+<!-- mobile fix menu start -->
+<div class="mobile-menu d-md-none d-block mobile-cart">
+    <ul>
+        <li >
+            <a href="/">
+                <span class="material-symbols-outlined">
+                    home
+                </span>
+                <span>Home</span>
+            </a>
+        </li>
+
+        <li class="mobile-category">
+            <a href="javascript:void(0)">
+                <span class="material-symbols-outlined">
+                    category
+                </span>
+                <span>Category</span>
+            </a>
+        </li>
+        {% comment %} <li>
+            <a href="{% url 'user:viewwishlist' %}">
+                <span class="material-symbols-outlined">
+                    favorite
+                    </span>
+                <span>About</span>
+            </a>
+        </li>  {% endcomment %}
+
+        <!-- <li>
+            <a href="{% url 'user:search' %}" class="search-box">
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+                <span>Search</span>
+            </a>
+        </li> -->
+
+
+        <li class="active">
+            <a href="{% url 'user:viewcart' %}">
+                <span class="material-symbols-outlined">
+
+                    shopping_cart
+                </span>
+                {% if count == 0 %}
+                <span id="cartCount" class="cart-count">Cart</span>
+                {% else %}
+                <span id="cartCount" class="cart-count">Cart-{{count}}</span>
+                {% endif %}
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- mobile fix menu end -->
+
+<!-- Breadcrumb Section Start -->
+<section class="breadscrumb-section pt-0">
+    <div class="container-fluid-lg">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadscrumb-contain">
+                    <h2>Cart</h2>
+                    <nav>
+                        <!-- <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="/">
+                                        <i class="fa fa-2x fa-solid fa-house"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                            </ol> -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- swathi cart -->
+
+
+
+
+
+<!-- swathi cart end -->
+
+<!-- Cart Section Start -->
+<section class="cart-section section-b-space">
+
+
+
+
+
+
+    <div id="cartsection1" class="container-fluid-lg">
+        {% if carted_item %}
+        <div class="p-3">
+            {% for item in carted_item %}
+            <div class="row shadow-lg my-3 my-3 align-items-center full-cart">
+                <div class="col-6 col-md-4 col-lg-2 text-center cartimg" id="cartimg"> 
+                    <a href="{% url 'user:product' item.product.id %}" class="product-image">
+                        <img src="{{item.product.image.crop.80x107}}" class="image-cart mx-auto d-block" alt="">
+                    </a>
+                </div>
+                
+
+                <div class="col-6 col-md-8 col-lg-4" id="cartimg">
+                    <div class="d-flex align-items-center">
+                        <h4 id="carttxt" class="product-name mb-2">
+                            {{item.product.product}}
+                        </h4>
+                        <a id="dlt1" class="remove close_button ml-3 ms-auto" href="{% url 'user:deletefromcart' item.id %}">
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+                        </a>
+                    </div>
+                    
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-2 text-center">
+                    <h4 id="" class="table-title text-content">Qty</h4>
+                    <div class="add-to-cart-box bg-white">
+                        {% comment %} <button class="btn btn-add-cart addcart-button">{{item.quantity}}
+                            <i  id="extplusicon" class="fa-solid fa-plus bg-gray"></i>
+                        </button> {% endcomment %}
+                        <div class="cart_qty qty-box">
+                            <div class="input-group bg-white">
+                                <button type="button" onclick="quantityminus({{item.id}})"
+                                    class="qty-left-minus bg-gray" data-type="minus" data-field="">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                                <input class="form-control" readonly id="quantity{{item.id}}" type="text"
+                                    name="quantity" value="{{item.quantity}}">
+                                <button type="button" onclick="quantityadd({{item.id}})" class="qty-right-plus bg-gray"
+                                    data-type="plus" data-field="">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-2 text-center">
+                    <h4 class="table-title text-content mb-4">Price</h4>
+                    <h5 readonly id="total{{item.id}}">{{item.product.new_price}}</h5>
+                    {% comment %} <h4 class="table-title text-content mb-4">Price</h4>
+                    <h5 readonly id="">{{item.product.new_price}}</h5> {% endcomment %}
+                </div>
+                <div id="dlt2" class="col-12 col-md-4 col-lg-2 text-center delete-button-col">
+                    <a class="remove close_button" href="{% url 'user:deletefromcart' item.id %}">
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+        {% else %}
+        <div id="useflex">
+        <img class="img-fluid" src="{% static 'web/images/emptycart2.png' %}" alt="">
+        </div>
+        {% endif %}
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="container-fluid-lg">
+        {% for item in carted_item %}
+        <!-- <div class="row cart-body pb-30" id="product-box43">
+                <div class="col-lg-6">
+                    <div class="">
+                        <a href="{% url 'user:shop' item.product.id %}" class="product-image">
+                            <img src="{{item.product.image.url}}"
+                                class="image-cart" alt="">
+                        </a>
+                        <div class="cart-content">
+                            <h3><a href=""><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{item.product.product}}</font></font></a></h3>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 col-lg-3">
+                    <div class="cart-item">
+                        <form>
+                            <input type="hidden" name="csrfmiddlewaretoken" value="EbCAm8DhpmpPoByP2P9Tp4n12vnYZREj80HnplnmWknNUuwrGGpIjmgdtUudMqvr">
+                            <input type="number" id="quantityId43" onchange="updateQuantity('43',this)" value="1">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-3 col-lg-1">
+                    <div class="cart-item">
+                        <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SR 10.0</font></font></p>
+                    </div>
+                </div>
+                <div class="col-3 col-lg-1">
+                    <div class="cart-item">
+                        <p id="subTotalPrice43"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SAR 10</font></font></p>
+                    </div>
+                </div>
+                <div class="col-2 col-lg-1">
+                    <div class="cart-item">
+                        <a class="remove" onclick="deleteProduct('43',this)"><i class="las la-times"></i></a>
+                    </div>
+                </div>
+            </div> -->
+
+        {% endfor %}
+
+
+        <div class="row g-sm-5 g-3 col-xxl-12">
+            <!-- <div class="col-xxl-0">
+                    <div class="cart-table">
+                        <div class="table-responsive-xl">
+                            <table class="table">
+                                <tbody>
+                                    {% for item in carted_item %}
+                                    <tr class="product-box-contain">
+                                        
+                                        <td class="product-detail">
+                                            <div class="product border-0">
+                                                <a href="{% url 'user:shop' item.product.id %}" class="product-image">
+                                                    <img src="{{item.product.image.url}}"
+                                                        class="img-fluid blur-up lazyload" alt="">
+                                                </a>
+                                                <div class="product-detail">
+                                                    <ul>
+                                                        <li class="name">
+                                                            <a href="{% url 'user:shop' item.product.id %}">{{item.product.product}}</a>
+                                                        </li>
+
+                                                       
+
+                                                        <li>
+                                                            <h5 class="text-content d-inline-block">Price :</h5>
+                                                            <span>Rs {{item.product.new_price}}</span>
+                                                            {% if product.old_price %}
+                                                            <del class="text-content">Rs {{item.product.old_price}}</del></h5>
+                                                            {% endif %}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        
+
+
+                                        {% comment %} Qty {% endcomment %}
+                                        <td class="quantity">
+                                            <h4 class="table-title text-content">Qty</h4>
+                                            <div class="add-to-cart-box bg-white">
+                                                <button class="btn btn-add-cart addcart-button">{{item.quantity}}
+                                                    <i class="fa-solid fa-plus bg-gray"></i></button>
+                                                <div class="cart_qty qty-box">
+                                                    <div class="input-group bg-white">
+                                                        <button type="button" onclick="quantityminus({{item.id}})" class="qty-left-minus bg-gray" data-type="minus"
+                                                            data-field="">
+                                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                                        </button>
+                                                        <input class="form-control" readonly id="quantity{{item.id}}" type="text"
+                                                            name="quantity"  value="{{item.quantity}}"> 
+                                                        <button type="button" onclick="quantityadd({{item.id}})" class="qty-right-plus bg-gray" data-type="plus"
+                                                            data-field="">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        {% comment %} Qty end {% endcomment %}
+
+                                        <td class="subtotal">
+                                            <h4 class="table-title text-content" >Total</h4>
+                                            <h5 readonly id="total{{item.id}}"></h5>
+                                            
+                                        </td>
+
+                                        <td class="save-remove">
+                                            <a class="remove close_button" href="{% url 'user:deletefromcart' item.id %}">Remove</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                           
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> -->
+
+            <div class="col-xxl-12">
+                <div class="summery-box p-sticky">
+                    <div class="summery-header">
+                        <h3>Cart Total</h3>
+                    </div>
+
+ 
+
+                    <ul class="summery-total">
+                        <li class="list-total border-top-0">
+                            <h4>Total</h4>
+
+                            <h4 class="price theme-color">Rs <span id="gtotal">{{sub_total.total__sum}}</span></h4>
+                        </li>
+                    </ul>
+                    {% comment %} <ul class="summery-total">
+                        <li class="list-total border-top-0">
+                            <h4>excluding shipping charges</h4>
+                        </li>
+                    </ul> {% endcomment %}
+                    {% comment %} <ul  class="summery-total">
+                        <li class="list-total m-0 p-0 border-top-0 delivery-quat">
+                            <p>Please note that shipping charges will be added during the checkout process based on your delivery address.</p>
+                        </li>
+                    </ul> {% endcomment %}
+
+                    <div class="button-group cart-button">
+                        <ul>
+                            <li>
+                                {% if carted_item %}
+                                <button onclick="sentWhatsapp()"
+                                    class="mx-lg-auto btn btn-animation proceed-btn fw-bold">Process To
+                                    Checkout</button>
+                                {% else %}
+                                <button class="mx-lg-auto btn btn-animation proceed-btn fw-bold" disabled>Process To
+                                    Checkout</button>
+                                {% endif %}
+                            </li>
+
+                            <li>
+                                <button onclick="location.href = '/';"
+                                    class="mx-lg-auto btn btn-light shopping-button text-dark">
+                                    <i class="fa-solid fa-arrow-left-long"></i>Return To Shopping
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Cart Section End -->
+
+<!-- Footer Section Start -->
+
+<!-- Footer Section End -->
+
+<!-- Location Modal Start -->
+<div class="modal location-modal fade theme-modal" id="locationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose your Delivery Location</h5>
+                <p class="mt-1 text-content">Enter your address and we will specify the offer for your area.</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="location-list">
+                    <div class="search-input">
+                        <input type="search" class="form-control" placeholder="Search Your Area">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <div class="disabled-box">
+                        <h6>Select a Location</h6>
+                    </div>
+
+                    <ul class="location-select custom-height">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>Alabama</h6>
+                                <span>Min: Rs 1130</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>Arizona</h6>
+                                <span>Min: Rs 1150</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>California</h6>
+                                <span>Min: Rs 1110</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>Colorado</h6>
+                                <span>Min: Rs 1140</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>Florida</h6>
+                                <span>Min: Rs 1160</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>Georgia</h6>
+                                <span>Min: Rs 1120</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>Kansas</h6>
+                                <span>Min: Rs 1170</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>Minnesota</h6>
+                                <span>Min: Rs 1120</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>New York</h6>
+                                <span>Min: Rs 1110</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h6>Washington</h6>
+                                <span>Min: Rs 1130</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Location Modal End -->
+
+<!-- Deal Box Modal Start -->
+<div class="modal fade theme-modal deal-modal" id="deal-box" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title w-100" id="deal_today">Deal Today</h5>
+                    <p class="mt-1 text-content">Recommended deals for you.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="deal-offer-box">
+                    <ul class="deal-offer-list">
+                        <li class="list-1">
+                            <div class="deal-offer-contain">
+                                <a href="shop-left-sidebar.html" class="deal-image">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/vegetable/product/10.png"
+                                        class="blur-up lazyload" alt="">
+                                </a>
+
+                                <a href="shop-left-sidebar.html" class="deal-contain">
+                                    <h5>Blended Instant Coffee 50 g Buy 1 Get 1 Free</h5>
+                                    <h6>Rs 152.57 <del>57.62</del> <span>500 G</span></h6>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="list-2">
+                            <div class="deal-offer-contain">
+                                <a href="shop-left-sidebar.html" class="deal-image">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/vegetable/product/11.png"
+                                        class="blur-up lazyload" alt="">
+                                </a>
+
+                                <a href="shop-left-sidebar.html" class="deal-contain">
+                                    <h5>Blended Instant Coffee 50 g Buy 1 Get 1 Free</h5>
+                                    <h6>Rs 152.57 <del>57.62</del> <span>500 G</span></h6>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="list-3">
+                            <div class="deal-offer-contain">
+                                <a href="shop-left-sidebar.html" class="deal-image">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/vegetable/product/12.png"
+                                        class="blur-up lazyload" alt="">
+                                </a>
+
+                                <a href="shop-left-sidebar.html" class="deal-contain">
+                                    <h5>Blended Instant Coffee 50 g Buy 1 Get 1 Free</h5>
+                                    <h6>Rs 152.57 <del>57.62</del> <span>500 G</span></h6>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="list-1">
+                            <div class="deal-offer-contain">
+                                <a href="shop-left-sidebar.html" class="deal-image">
+                                    <img src="https://themes.pixelstrap.com/fastkart/assets/images/vegetable/product/13.png"
+                                        class="blur-up lazyload" alt="">
+                                </a>
+
+                                <a href="shop-left-sidebar.html" class="deal-contain">
+                                    <h5>Blended Instant Coffee 50 g Buy 1 Get 1 Free</h5>
+                                    <h6>Rs 152.57 <del>57.62</del> <span>500 G</span></h6>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Deal Box Modal End -->
+
+<!-- Tap to top start -->
+<div class="theme-option">
+    <!-- <div class="setting-box">
+            <button class="btn setting-button">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+
+            <div class="theme-setting-2">
+                <div class="theme-box">
+                    <ul>
+                        <li>
+                            <div class="setting-name">
+                                <h4>Color</h4>
+                            </div>
+                            <div class="theme-setting-button color-picker">
+                                <form class="form-control">
+                                    <label for="colorPick" class="form-label mb-0">Theme Color</label>
+                                    <input type="color" class="form-control form-control-color" id="colorPick"
+                                        value="#0da487" title="Choose your color">
+                                </form>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="setting-name">
+                                <h4>Dark</h4>
+                            </div>
+                            <div class="theme-setting-button">
+                                <button class="btn btn-2 outline" id="darkButton">Dark</button>
+                                <button class="btn btn-2 unline" id="lightButton">Light</button>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="setting-name">
+                                <h4>RTL</h4>
+                            </div>
+                            <div class="theme-setting-button rtl">
+                                <button class="btn btn-2 rtl-unline">LTR</button>
+                                <button class="btn btn-2 rtl-outline">RTL</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+
+    <div class="back-to-top">
+        <a id="back-to-top" href="#">
+            <i class="fas fa-chevron-up"></i>
+        </a>
+    </div>
+</div>
+<!-- Tap to top end -->
+
+
+</body>
+
+
+<!-- on, 07 Nov 2022 10:09:26 GMT -->
+
+</html>
+{% comment %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
+{% comment %} <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> {% endcomment %}
+
+<script>
+    function quantityadd(id) {
+
+        $.ajax({
+            url: 'addquantity/',
+            type: 'GET',
+            data: {
+                'quantity': $('#quantity' + id).val(),
+                'id': id,
+            },
+            success: function (responce) {
+
+
+                $('#total' + id).html(responce.total)
+                $('#gtotal').html(responce.gtotal)
+                // window.location.reload()
+            }
+        })
+    }
+
+    function quantityminus(id) {
+
+        $.ajax({
+            url: 'lessquantity/',
+            type: 'GET',
+            data: {
+                'quantity': $('#quantity' + id).val(),
+                'id': id,
+            },
+            success: function (responce) {
+
+                var lessquantity = $('#quantity' + id).val()
+
+                $('#quantity' + id).val(lessquantity - 1)
+                $('#total' + id).html(responce.total)
+                $('#gtotal').html(responce.gtotal)
+                // window.location.reload()
+            }
+        })
+    }
+    function sentWhatsapp() {
+
+        $.ajax({
+            url: 'whatsapp',
+            type: 'POST',
+            data: {
+                'cartid': "ss",
+            },
+            success: function (responce) {
+                window.location.href = responce.link
+
+            }
+        })
+    }
+</script>
+
+
+
+<script>
+    function quantityadd(id) {
+
+        $.ajax({
+            url: 'addquantity/',
+            type: 'GET',
+            data: {
+                'quantity': $('#quantity' + id).val(),
+                'id': id,
+            },
+            success: function (responce) {
+
+
+                $('#total' + id).html(responce.total)
+                $('#gtotal').html(responce.gtotal)
+                // window.location.reload()
+            }
+        })
+    }
+
+    function quantityminus(id) {
+
+        $.ajax({
+            url: 'lessquantity/',
+            type: 'GET',
+            data: {
+                'quantity': $('#quantity' + id).val(),
+                'id': id,
+            },
+            success: function (responce) {
+
+                var lessquantity = $('#quantity' + id).val()
+
+                $('#quantity' + id).val(lessquantity - 1)
+                $('#total' + id).html(responce.total)
+                $('#gtotal').html(responce.gtotal)
+                // window.location.reload()
+            }
+        })
+    }
+    function sentWhatsapp() {
+
+        $.ajax({
+            url: 'whatsapp',
+            type: 'POST',
+            data: {
+                'cartid': "ss",
+            },
+            success: function (responce) {
+                window.location.href = responce.link
+
+            }
+        })
+    }
+</script>
+
+
+{% endblock %}

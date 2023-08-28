@@ -1,0 +1,357 @@
+{% extends 'web/partials/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<style>
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border: 1px solid #e2e2e2;
+        padding: 20px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        max-width: 300px;
+        width: 100%;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    .popup-message {
+        font-size: 18px;
+        line-height: 1.4;
+        margin: 0;
+        color: #333333;
+    }
+
+    .popup-button {
+        margin-top: 20px;
+    }
+
+    .popup-button button {
+        background-color: #fd7d24;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .popup-button button:hover {
+        background-color: #ff933a;
+    }
+
+    #sectionpad{
+        padding-top:40px;
+    }
+
+</style>
+
+
+    <!-- mobile fix menu start -->
+    <div class="mobile-menu d-md-none d-block mobile-cart">
+        <ul>
+            <li class="">
+                <a href="/">
+                    <span class="material-symbols-outlined">
+                        home
+                        </span>
+                    <span>Home</span>
+                </a>
+            </li>
+
+            <li class="mobile-category active">
+                <a href="javascript:void(0)">
+                    <span class="material-symbols-outlined">
+                        category
+                        </span>
+                    <span>Category</span>
+                </a>
+            </li>
+            {% comment %} <li>
+                <a href="{% url 'user:viewwishlist' %}">
+                    <span class="material-symbols-outlined">
+                        favorite
+                        </span>
+                    <span>About</span>
+                </a>
+            </li>  {% endcomment %}
+            {% comment %} <li>
+                <a href="{% url 'user:search' %}" class="search-box">
+                    <span class="material-symbols-outlined">
+                        search
+                        </span>
+                    <span>Search</span>
+                </a>
+            </li> {% endcomment %}
+
+            
+
+            <li>
+                <a href="{% url 'user:viewcart' %}">
+                    <span class="material-symbols-outlined">
+                        
+                        shopping_cart
+                        </span>
+                        {% if count == 0 %}
+                        <span id="cartCount" class="cart-count">Cart</span>
+                        {% else %}
+                        <span id="cartCount" class="cart-count">Cart-{{count}}</span>
+                        {% endif %}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- mobile fix menu end -->
+
+    <!-- Breadcrumb Section Start -->
+    <section class="breadscrumb-section pt-0">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadscrumb-contain">
+                        <h2>Shop Your Favourite</h2>
+                        {% comment %} <nav>
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="/">
+                                        <i class="fa fa-2x fa-solid fa-house"></i>
+                                    </a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Shop Left Sidebar</li>
+                            </ol>
+                        </nav> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Poster Section Start -->
+   
+    <!-- Shop Section Start -->
+    {% comment %} <section class="section-b-space shop-section ">
+        <div class="container-fluid-lg">
+            <div class="row">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-info">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="row g-sm-4 g-3 product-list-section mt-3">
+                        {% for product in products %}
+                        <div class="col-lg-2 col-6 px-0">                                       
+                            <div class="product-box" style="border-right:0px  border:solid 1px;border: solid 1px;/* border-block-color: grey; */border-color:#fd7d24;">
+                                <div class="product-image">
+                                    <a href={% url 'user:product' product.id %}>
+                                        <img src="{{product.image.url}}"
+                                                class="img-fluid blur-up lazyload" alt="">
+                                    </a>
+                                    <!-- <ul class="product-option">
+                                        
+                                            <a href={% url 'user:product' product.id %}>
+                                                
+                                            </a>
+                                        </li>
+                                        <li data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Wishlist">
+                                            <a href="{% url 'user:addtowishlist' product.id %}">
+                                                <i data-feather="heart"></i>
+                                            </a>
+                                            </li>
+                                    </ul> -->
+                                </div>
+                                <div class="product-detail">
+                                    <a href={% url 'user:product' product.id %}>
+                                                <h6 class="name " style="min-height: 0px; max-height: none; height: 22px; text-align: -webkit-center;">{{product.product}}</h6>
+                                    </a>
+                                    <h5 class="sold text-content">
+                                            <span class="theme-color price">Rs {{product.new_price}}</span>
+                                                <del>{{product.old_price}}</del>
+                                    </h5>
+                                    <div class="product-rating mt-sm-2 mt-1">
+                                            <ul class="rating">
+                                                <li>
+                                                    <i data-feather="star" class="fill"></i>
+                                                </li>
+                                                <li>
+                                                    <i data-feather="star" class="fill"></i>
+                                                </li>
+                                                <li>
+                                                    <i data-feather="star" class="fill"></i>
+                                                </li>
+                                                <li>
+                                                    <i data-feather="star" class="fill"></i>
+                                                </li>
+                                                <li>
+                                                    <i data-feather="star"></i>
+                                                </li>
+                                            </ul>
+    
+                                            <!-- <h6 class="theme-color">In Stock</h6> -->
+                                    </div>
+                                    <div class="add-to-cart-box">
+                                        <a onclick="addToCart({{product.id}})">
+                                            <button class="btn btn-add-cart">Add To Cart</button>
+                                        </a>                                      
+                                    </div>
+                                </div>
+                            </div>                                        
+                        </div>
+                    {% endfor %}
+                        
+                    </div> {% endcomment %}
+
+                    {% comment %}  {% endcomment %}
+                        {% comment %}  {% endcomment %}
+                        {% comment %}  {% endcomment %}
+
+                    <div id="sectionpad" class="section-b-space">
+                        <div class="container-fluid-lg">
+                        <div class="row m-0">
+                            {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-info">
+                                    {{message}}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% for product in products %}                       
+                                <div class="col-lg-3 col-6 px-0">                                       
+                                    <div class="product-box" style="border-right:0px  border:solid 1px;border: solid 1px;/* border-block-color: #c1c1c1; */border-color:#e7e7e7;">
+                                        <div class="product-image">
+                                       <a href={% url 'user:product' product.id %}>
+                                        <img src="{{product.image.url}}"
+                                                class="img-fluid blur-up lazyload" alt="">
+                                    </a>
+                                           
+                                        </div>
+                                        <div class="product-detail">
+                                            <a href={% url 'user:product' product.id %}>
+                                                        <h6 class="name " style="min-height: 0px; max-height: none; height: 22px; text-align: -webkit-center;">{{product.product}}</h6>
+                                            </a>
+                                            <h5 class="sold text-content">
+                                                    <span class="theme-color price">Rs {{product.new_price}}</span>
+                                                    {% if product.old_price %}
+                                                        <del>{{product.old_price}}</del>
+                                                    {% endif %}
+                                            </h5>
+                                           
+                                            <div class="add-to-cart-box">
+                                                <a onclick="addToCart({{product.id}})">
+                                                    <button class="btn btn-add-cart">Add To Cart</button>
+                                                </a>                               
+                                            </div>
+                                        </div>
+                                    </div>                                        
+                                </div>
+                            {% endfor %}  
+                        </div>                                                         
+                    </div>
+                    </div>
+
+                    
+                    {% comment %} <nav class="custome-pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="javascript:void(0)" tabindex="-1" aria-disabled="true">
+                                    <i class="fa-solid fa-angles-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <a class="page-link" href="javascript:void(0)">1</a>
+                            </li>
+                            <li class="page-item" aria-current="page">
+                                <a class="page-link" href="javascript:void(0)">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="javascript:void(0)">
+                                    <i class="fa-solid fa-angles-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav> {% endcomment %}
+                </div>
+
+                
+            </div>
+
+        </div>
+    </section>
+
+ 
+    <!-- Shop Section End -->
+
+
+
+    
+
+    <!-- Add to cart Modal Start -->
+    <div class="add-cart-box">
+        <div class="add-iamge">
+            <img src="https://themes.pixelstrap.com/fastkart/assets/images/cake/pro/1.jpg"
+                class="img-fluid blur-up lazyload" alt="">
+        </div>
+
+        <div class="add-contain">
+            <h6>Added to Cart</h6>
+        </div>
+    </div>
+    <!-- Add to cart Modal End -->
+
+  
+
+   
+
+<!-- shop-left-sidebar.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Nov 2022 10:09:25 GMT -->
+
+</html>
+
+<script>
+
+    function addToCart(id) {
+        $.ajax({
+            url: '/addtocart/',
+            type: 'POST',
+            data: {
+                'count': $('#cartCount').html(),
+                'id': id,
+            },
+            success: function (responce) {
+                $('#cartCount').html(responce.cartcount);
+
+                var popup = document.createElement("div");
+                popup.className = "popup";
+                var message = document.createElement("p");
+                message.className = "popup-message";
+                message.textContent = "Product added to cart!";
+                popup.appendChild(message);
+                document.body.appendChild(popup);
+
+                // Remove the popup after a certain time (e.g., 3 seconds)
+                setTimeout(function () {
+                    document.body.removeChild(popup);
+                }, 1000);
+            
+                // window.location.reload()
+            }
+        });
+    }
+
+
+</script>
+
+
+{% endblock %}

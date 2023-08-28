@@ -1,0 +1,262 @@
+{% load static %}
+
+
+<style>
+    header .top-nav .navbar-top .web-logo img {
+        width: 70px;
+
+    }
+@media (max-width: 760px) {
+    header .top-nav .navbar-top .web-logo img {
+        width: 50px;
+
+    }
+    {% comment %} #57a300 {% endcomment %}
+}
+.search-box h3{
+    color:black;
+}
+</style>
+
+
+
+<header class="pb-sm-4 pb-md-0 pb-0">
+
+
+    <div class="top-nav top-header sticky-header">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-12">
+                    <div class="navbar-top">
+                        <!-- <button class="navbar-toggler d-xl-none d-inline navbar-menu-button" type="button"
+                            data-bs-toggle="offcanvas" data-bs-target="#primaryMenu">
+                            <span class="navbar-toggler-icon">
+                                <i class="fa-solid fa-bars"></i>
+                            </span>
+                        </button> -->
+                        <a href="/" class="web-logo nav-logo">
+                            <img src="{% static 'web/images/logo1.png' %}"
+                                class="img-fluid blur-up lazyload" alt="">
+                        </a>
+
+                        <div class="middle-box me-auto ps-5">
+                           
+
+                            {% comment %} instead of location all categories {% endcomment %}
+                            <div class="header-nav">
+                                <div class="header-nav-left">
+                                <button class="dropdown-category">
+                                    <i data-feather="align-left"></i>
+                                    <span>All Categories</span>
+                                </button>
+        
+                                <div class="category-dropdown">
+                                    <div class="category-title">
+                                        <h5>Categories</h5>
+                                        <button type="button" class="btn p-0 close-button text-content">
+                                            <span class="material-icons-outlined">
+                                                close
+                                                </span>
+                                        </button>
+                                    </div>
+        
+                                    <ul class="category-list food-menu-filter">
+                                       {% for category in categories %}
+                                        <li class="onhover-category-list">
+                                            <a href="{{category.get_absolute_url}}" class="category-name">
+                                                {% comment %} <img src="{{category.image.url}}" alt=""> {% endcomment %}
+                                                <h6>{{category.category}}</h6>
+                                                <i class="fa-solid fa-angle-right"></i>
+                                            </a>  {% if category.get_subcategories %}        
+                                            <div class="onhover-category-box w-100 product-items">
+                                                <div class="list-1">
+                                                    
+                                                   
+                                                    <ul>
+                                                      {% for subcategory in category.get_subcategories %}
+                                                        <li>
+                                                          <a href="{% url 'user:shop_category' subcategory.id %}">{{ subcategory.subcategory }}</a>
+                                                        </li>
+                                                      {% endfor %}
+                                                    </ul>
+                                                  
+                                                  
+                                                    
+                                                </div>
+                                            </div>{% endif %}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                 
+                                </div>
+                              
+                            </div>
+                        </div>
+                            {% comment %} end  all categories {% endcomment %}
+
+                            {% comment %} <div class="search-box">
+                                <ul>
+                                    <a href="{%url 'user:about_us' %}"><li><h3>About</h3></li></a>
+                                </ul>
+                            </div> {% endcomment %}
+                        </div>
+
+                        <div class="rightside-box">
+                            <div class="search-full">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i data-feather="search" class="font-light"></i>
+                                    </span>
+                                    <input type="text" class="form-control search-type" placeholder="Search here..">
+                                    <span class="input-group-text close-search">
+                                        <i data-feather="x" class="font-light"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <ul class="right-side-menu">
+                                <li id="navnumber">
+                                  <a href="tel:+918157865247">  +91 8157 865 247</a>
+                                </li>
+                                <li class="right-side">
+
+                                </li>
+                                <!-- <li class="right-side">
+                                    <a href="{% url 'user:contact_us' %}" class="delivery-login-box">
+                                        <div class="delivery-icon">
+                                            <i data-feather="phone-call"></i>
+                                        </div>
+                                        <div class="delivery-detail">
+                                            <h6>24/7 Delivery</h6>
+                                            <h5>+91 888 104 2340</h5>
+                                        </div>
+                                    </a>
+                                </li> -->
+                                <!-- <li class="right-side">
+                                    <a href="{%url 'user:viewwishlist' %}" class="btn p-0 position-relative header-wishlist">
+                                        <i data-feather="heart"></i>
+                                    </a>
+                                </li> -->
+                                <li class="right-side">
+                                    <a href="{%url 'user:viewcart' %}" class="btn p-0 position-relative header-wishlist">
+                                        
+                                        <i data-feather="shopping-cart"></i>
+                                        <span id="cartCount" class="cart-count">{{count}}</span>
+                                    </a>
+                                </li>
+
+
+
+
+
+                               
+                                <!-- <li class="right-side onhover-dropdown">
+                                    
+                                    <div class="delivery-login-box">
+                                        <div class="delivery-icon">
+                                            <i data-feather="user"></i>
+                                        </div>
+                                        <div class="delivery-detail">
+                                            <h6>Hello,</h6>
+                                            <h5>My Account</h5>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="onhover-div onhover-div-login">
+                                         <ul class="user-box-name">
+                                           
+                                            {% if status == 1 %}
+                                            <li class="product-box-contain">
+                                                <i></i>
+                                                <a href={% url 'user:sign_up' %}>New Account</a>
+                                            </li>
+                                            <li class="product-box-contain">
+                                                <a href={% url 'user:logout' %}>logout</a>
+                                            </li>
+                                            {% else %}
+                                            <li class="product-box-contain">
+                                                <a href={% url 'user:login' %}>Log in</a>
+                                            </li>
+                                            <li class="product-box-contain">
+                                                <a href={% url 'user:sign_up' %}>Register</a>
+                                            </li>
+                                            {% endif %}
+                                        </ul> 
+                                    </div>
+                                   
+                                </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% comment %} phone categories {% endcomment %}
+    <div class="container-fluid-lg">
+        <div class="row">
+            <div class="col-12">
+                <div class="header-nav">
+                   <div class="header-nav-left">
+                        <div class="category-dropdown">
+                            <div class="category-title">
+                                <h5>Categories</h5>
+                                <button type="button" class="btn p-0 close-button text-content">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+
+                            <ul class="category-list">
+                                <li class="onhover-category-list">
+                                    {% for category in categories %}
+                                    <a href="{{category.get_absolute_url}}" class="category-name">
+                                        {% comment %} <img src="{{category.image.url}}"
+                                            alt=""> {% endcomment %}
+                                        <h6>{{category.category}}</h6>
+                                        <i class="fa-solid fa-angle-right"></i>
+                                    </a>
+                                    <div class="onhover-category-box">
+                                        {% for subcategory in category.get_subcategories %}
+                                            <div class="category-title-box">
+                                                <a href="{% url 'user:shop_category' subcategory.id %}"><h5>{{subcategory.subcategory}}</h5></a>
+                                            </div>
+                                            <ul>
+                                                <!-- {% for products in subcategory.get_products %}
+                                                <li>
+                                                    <a href="{% url 'user:product' products.id %}">{{products.product}}</a>
+                                                </li>
+                                                {% endfor %} -->
+                                            </ul>
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                        </div>
+                    </div> 
+
+                    <div class="header-nav-middle">
+                        <div class="main-nav navbar navbar-expand-xl navbar-light navbar-sticky">
+                            <div class="offcanvas offcanvas-collapse order-xl-2" id="primaryMenu">
+                                <div class="offcanvas-header navbar-shadow">
+                                    <h5>Menu</h5>
+                                    <button class="btn-close lead" type="button" data-bs-dismiss="offcanvas"
+                                        aria-label="Close"></button>
+                                </div>
+                          
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+{% block js %}
+
+{% endblock %}

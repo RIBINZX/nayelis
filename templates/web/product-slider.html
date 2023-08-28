@@ -1,0 +1,1238 @@
+{% extends 'web/partials/base.html' %}
+
+{% load static %}
+{% block meta %}
+<title>{{products.meta_title}}</title>
+    <meta
+      name="title"
+      content="{{products.meta_title}}"
+    />
+    <meta
+      name="description"
+      content="{{products.meta_description}}"
+    />
+    <meta name="keywords" content="{{products.meta_keyword}}" />
+
+
+
+{% endblock %}
+{% block content %}
+
+
+
+<style>
+    .text-content{
+        text-align:justify;
+    }
+    @media (min-width: 760px) {
+        .product-section .right-box-contain .price-rating {
+
+            justify-content: normal;
+        }
+        .product-section .right-box-contain .offer-top {
+            font-weight: 500;
+            padding: calc(8px + (10 - 8) * ((100vw - 320px) / (1920 - 320))) calc(12px + (16 - 12) * ((100vw - 320px) / (1920 - 320)));
+            background-color: rgba(255, 79, 79, 0.1);
+            border-radius: 5px;
+            color: #ff4f4f;
+            display: inline-block;
+            margin-bottom: 0px;
+            margin-left: 10px;
+        }
+        /* #productpadding{
+            padding:0px 150px;
+        } */
+
+    }
+    .product-box-3 .product-header .product-image {
+        text-align: center;
+        padding: 0px; 
+        display: block;
+    }
+    #useflex{
+        {% comment %} display:flex; {% endcomment %}
+        overflow: hidden;
+    }
+    #useflex.row{
+        margin-right: 0px;
+
+    }
+    .rbnsection{
+        {% comment %} padding: 0px; {% endcomment %}
+    }
+    img.img-fluid.blur-up.lazyloaded{
+        width:100%;
+    }
+    .product-slider-image{
+        {% comment %} padding-left: 20px; {% endcomment %}
+    }
+    #addcartbtn{
+        
+        background-color:#57a300 ;
+    }
+    @media (max-width: 760px) {
+        #useflex{
+            {% comment %} display:flex;
+            flex-direction:column; {% endcomment %}
+        }
+        #rbncolimg{
+            padding: 0px;
+        }
+        #addcartbtn{
+            padding: 10px 50%;
+            background-color:#57a300;
+        }
+        .product-section .right-box-contain {
+            text-align: start;
+            padding-bottom: 0px;
+        }
+        
+        .product-section .right-box-contain .offer-top {
+
+            margin-bottom: 0px;
+        }
+        .product-section .right-box-contain .price-rating{
+            display: flex;
+            justify-content: initial;
+            gap:10px;
+        }
+        #useflex{
+            --bs-gutter-x: 0rem;
+        }
+
+    }
+    .note-box.product-packege {
+        padding-top: 32px;
+    }
+
+
+
+    
+</style>
+
+
+
+
+
+    <!-- mobile fix menu start -->
+    <div class="mobile-menu d-md-none d-block mobile-cart">
+        <ul>
+            <li class="active">
+                <a href="/">
+                    <span class="material-symbols-outlined">
+                        home
+                        </span>
+                    <span>Home</span>
+                </a>
+            </li>
+
+            <li class="mobile-category">
+                <a href="javascript:void(0)">
+                    <span class="material-symbols-outlined">
+                        category
+                        </span>
+                    <span>Category</span>
+                </a>
+            </li>
+            {% comment %} <li>
+                <a href="{% url 'user:viewwishlist' %}">
+                    <span class="material-symbols-outlined">
+                        favorite
+                        </span>
+                    <span>About</span>
+                </a>
+            </li>  {% endcomment %}
+            {% comment %} <li>
+                <a href="{% url 'user:search' %}" class="search-box">
+                    <span class="material-symbols-outlined">
+                        search
+                        </span>
+                    <span>Search</span>
+                </a>
+            </li> {% endcomment %}
+
+
+
+            <li>
+                <a href="{% url 'user:viewcart' %}">
+                    <span class="material-symbols-outlined">
+                        
+                        shopping_cart
+                        </span>
+                        {% if count == 0 %}
+                        <span id="cartCount" class="cart-count">Cart</span>
+                        {% else %}
+                        <span id="cartCount" class="cart-count">Cart-{{count}}</span>
+                        {% endif %}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- mobile fix menu end -->
+
+    <!-- Breadcrumb Section Start -->
+    {% comment %} <section class="breadscrumb-section pt-0">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadscrumb-contain">
+                        <h2>{{products.product}}</h2>
+                        <nav>
+                            <!-- <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item">
+                                    <a href="/">
+                                        <i class="fa fa-2x fa-solid fa-house"></i>
+                                    </a>
+                                </li>
+
+                                <li class="breadcrumb-item active">{{products.product}}</li>
+                            </ol> -->
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> {% endcomment %}
+    <!-- Breadcrumb Section End -->
+    <div class="container">
+    <div id="useflex" class="row">
+        <div id="rbncolimg" class="col-0 col-lg-6">
+    
+    <section class="rbnsection">
+       
+                        <div>
+                            
+                            <div class="product-slider-image">
+                                <img src="{{products.image.url}}"
+                                    alt="{{products.product}}" class="img-fluid blur-up lazyload"> 
+                            </div>
+                        </div>
+                        {% if products.sub_image1 %}
+                        <div>
+                            <div class="product-slider-image">
+                                <img src="{{products.sub_image1.url}}"
+                                    alt="{{products.product}}" class="img-fluid blur-up lazyload"> 
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if products.sub_image2 %}
+                        <div>
+                            <div class="product-slider-image">
+                                <img src="{{products.sub_image2.url}}"
+                                    alt="{{products.product}}" class="img-fluid blur-up lazyload"> 
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if products.sub_image3 %}
+                        <div>
+                            <div class="product-slider-image">
+                                <img src="{{products.sub_image3.url}}"
+                                    alt="{{products.product}}" class="img-fluid blur-up lazyload"> 
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% comment %} <div>
+                            <div class="product-slider-image">
+                                <img src="https://themes.pixelstrap.com/fastkart/assets/images/product/category/2.jpg"
+                                    alt="" class="img-fluid blur-up lazyload">
+                            </div>
+                        </div>{% endcomment %}
+
+    </section>
+</div>
+    <!-- Product Slider Section End -->
+    <div class="col-0 col-lg-6">
+    <!-- Product Left Sidebar Start -->
+    <section class="product-section">
+        <div class="">
+            <div id="overrow" class="row">
+                <div id="productpadding"  class="col-xxl-12 col-xl-12 col-lg-12 wow fadeInUp">
+                    <div id="productpaddi" class="row g-4">
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-info">
+                                {{message}}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        <div class="col-12 wow fadeInUp">
+                            <div class="right-box-contain">
+                                
+                                <h2 class="name">{{products.product}}</h2>
+                                <div class="price-rating">
+                                    <h3 class="theme-color price"> {{products.new_price}}
+
+                                        {% if products.old_price %}
+                                         <del class="text-content"> {{products.old_price}}</del> {% endif %}</h3>
+                                        {% comment %} <span class="offer theme-color">(8% off)</span> {% endcomment %}
+                                        {% if products.old_price == None %}
+                                        <h6 class="offer-top">0 %OFF</h6>
+                                        {% else %}
+                                        <h6 class="offer-top">{{percentage|floatformat:0}} %OFF</h6>
+                                        {% endif %}
+                                        {% comment %} <span class="review">23 Customer Review</span> {% endcomment %}
+                                    </div>
+                                </div>
+
+                                {% comment %} <div class="procuct-contain">
+                                    <p>{{products.description}}
+                                    </p>
+                                </div> {% endcomment %}
+
+                                <!-- <div class="product-packege">
+                                    <div class="product-title">
+                                        <h4>Weight</h4>
+                                    </div>
+                                    <ul class="select-packege">
+                                        <li>
+                                            <a href="javascript:void(0)" class="active">1/2 KG</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">1 KG</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">1.5 KG</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">Red Roses</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">With Pink Roses</a>
+                                        </li>
+                                    </ul>
+                                </div> -->
+
+                                <!-- <div class="time deal-timer product-deal-timer mx-md-0 mx-auto" id="clockdiv-1"
+                                    data-hours="1" data-minutes="2" data-seconds="3">
+                                    <div class="product-title">
+                                        <h4>Hurry up! Sales Ends In</h4>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <div class="counter d-block">
+                                                <div class="days d-block">
+                                                    <h5></h5>
+                                                </div>
+                                                <h6>Days</h6>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="counter d-block">
+                                                <div class="hours d-block">
+                                                    <h5></h5>
+                                                </div>
+                                                <h6>Hours</h6>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="counter d-block">
+                                                <div class="minutes d-block">
+                                                    <h5></h5>
+                                                </div>
+                                                <h6>Min</h6>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="counter d-block">
+                                                <div class="seconds d-block">
+                                                    <h5></h5>
+                                                </div>
+                                                <h6>Sec</h6>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div> -->
+
+                               
+                                <!-- <div class="buy-box">
+                                    <a href="{% url 'user:addtowishlist' products.id %}">
+                                        <i data-feather="heart"></i>
+                                        <span>Add To Wishlist</span>
+                                    </a>
+
+                                    {% comment %} <a href="compare.html">
+                                        <i data-feather="shuffle"></i>
+                                        <span>Add To Compare</span>
+                                    </a> {% endcomment %}
+                                </div> -->
+{% if products.description %}
+                                <div class="pickup-box">
+                                    <div class="product-title">
+                                        <h4>Ingredients</h4>
+                                    </div>
+
+                                    <div class="pickup-detail">
+                                        <h4 class="text-content">{{products.description}}</h4>
+                                    </div>
+
+                            
+                                </div>
+                                {% endif %}
+                                {% comment %} <div class="paymnet-option">
+                                    <div class="product-title">
+                                        <h4>Guaranteed Safe Checkout</h4>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <img src="https://themes.pixelstrap.com/fastkart/assets/images/product/payment/1.svg"
+                                                    class="blur-up lazyload" alt="">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <img src="https://themes.pixelstrap.com/fastkart/assets/images/product/payment/2.svg"
+                                                    class="blur-up lazyload" alt="">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <img src="https://themes.pixelstrap.com/fastkart/assets/images/product/payment/3.svg"
+                                                    class="blur-up lazyload" alt="">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <img src="https://themes.pixelstrap.com/fastkart/assets/images/product/payment/4.svg"
+                                                    class="blur-up lazyload" alt="">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <img src="https://themes.pixelstrap.com/fastkart/assets/images/product/payment/5.svg"
+                                                    class="blur-up lazyload" alt="">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div> {% endcomment %}
+                            </div>
+                        </div>
+                        <div class="note-box product-packege">
+                            {% comment %} <div class="cart_qty qty-box product-qty">
+                                <div class="input-group">
+                                    <button type="button" class="qty-right-plus" data-type="plus" data-field="">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                    <input class="form-control input-number qty-input" type="text"
+                                        name="quantity" value="0">
+                                    <button type="button" class="qty-left-minus" data-type="minus"
+                                        data-field="">
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div> {% endcomment %}
+
+                            <a href="{%url 'user:viewcart' %}" onclick="addToCart({{products.id}})"
+                               id="addcartbtn" class="btn btn-md  cart-button text-white w-25 ">Add To Cart</a>
+                        </div>
+
+                        <div class="col-12 wow fadeInUp">
+                            <div class="product-section-box">
+                                <ul class="nav nav-tabs custom-nav" id="myTab" role="tablist">
+                                    {% comment %} <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="info-tab" data-bs-toggle="tab"
+                                            data-bs-target="#info" type="button" role="tab" aria-controls="info"
+                                            aria-selected="false">Additional info</button>
+                                    </li> {% endcomment %}
+
+                                    <!-- <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="care-tab" data-bs-toggle="tab"
+                                            data-bs-target="#care" type="button" role="tab" aria-controls="care"
+                                            aria-selected="false">Care Instuctions</button>
+                                    </li> -->
+
+                                    <!-- <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="review-tab" data-bs-toggle="tab"
+                                            data-bs-target="#review" type="button" role="tab" aria-controls="review"
+                                            aria-selected="false">Review</button>
+                                    </li> -->
+                                </ul>
+
+                                <div class="tab-content custom-tab" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="description" role="tabpanel"
+                                        aria-labelledby="description-tab">
+                                        <div class="product-description">
+                                            {% comment %} <div class="nav-desh">
+                                                <p>Jelly beans carrot cake icing biscuit oat cake gummi bears tart.
+                                                    Lemon drops carrot cake pudding sweet gummi bears. Chocolate cake
+                                                    tart cupcake donut topping liquorice sugar plum chocolate bar. Jelly
+                                                    beans tiramisu caramels jujubes biscuit liquorice chocolate. Pudding
+                                                    toffee jujubes oat cake sweet roll. Lemon drops dessert croissant
+                                                    danish cake cupcake. Sweet roll candy chocolate toffee jelly sweet
+                                                    roll halvah brownie topping. Marshmallow powder candy sesame snaps
+                                                    jelly beans candy canes marshmallow gingerbread pie.</p>
+                                            </div> {% endcomment %}
+
+                                            <!-- <div class="nav-desh">
+                                                <div class="desh-title">
+                                                    <h5>About:</h5>
+                                                </div>
+                                                <p>vitae et leo duis ut diam quam nulla porttitor massa id neque aliquam
+                                                    vestibulum morbi blandit cursus risus at ultrices mi tempus
+                                                    imperdiet nulla malesuada pellentesque elit eget gravida cum sociis
+                                                    natoque penatibus et magnis dis parturient montes nascetur ridiculus
+                                                    mus mauris vitae ultricies leo integer malesuada nunc vel risus
+                                                    commodo viverra maecenas accumsan lacus vel facilisis volutpat est
+                                                    velit egestas dui id ornare arcu odio ut sem nulla pharetra diam sit
+                                                    amet nisl suscipit adipiscing bibendum est ultricies integer quis
+                                                    auctor elit sed vulputate mi sit amet mauris commodo quis imperdiet
+                                                    massa tincidunt nunc pulvinar sapien et ligula ullamcorper malesuada
+                                                    proin libero nunc consequat interdum varius sit amet mattis
+                                                    vulputate enim nulla aliquet porttitor lacus luctus accumsan.</p>
+                                            </div> -->
+
+                                            {% comment %} <div class="banner-contain nav-desh">
+                                                <img src="{% static 'web/images_new/Banner5-01.jpg' %}"
+                                                    class="bg-img blur-up lazyload" alt="">
+                                                <div class="banner-details p-center banner-b-space w-100 text-center">
+                                                    <div>
+                                                        <br><br><br><br><br><br><br><br>
+                                                    </div>
+                                                </div>
+                                            </div> {% endcomment %}
+
+                                            <!-- <div class="nav-desh">
+                                                <div class="desh-title">
+                                                    <h5>From The Manufacturer:</h5>
+                                                </div>
+                                                <p>Jelly beans shortbread chupa chups carrot cake jelly-o halvah apple
+                                                    pie pudding gingerbread. Apple pie halvah cake tiramisu shortbread
+                                                    cotton candy croissant chocolate cake. Tart cupcake caramels gummi
+                                                    bears macaroon gingerbread fruitcake marzipan wafer. Marzipan
+                                                    dessert cupcake ice cream tootsie roll. Brownie chocolate cake
+                                                    pudding cake powder candy ice cream ice cream cake. Jujubes soufflé
+                                                    chupa chups cake candy halvah donut. Tart tart icing lemon drops
+                                                    fruitcake apple pie.</p>
+
+                                                <p>Dessert liquorice tart soufflé chocolate bar apple pie pastry danish
+                                                    soufflé. Gummi bears halvah gingerbread jelly icing. Chocolate cake
+                                                    chocolate bar pudding chupa chups bear claw pie dragée donut halvah.
+                                                    Gummi bears cookie ice cream jelly-o jujubes sweet croissant.
+                                                    Marzipan cotton candy gummi bears lemon drops lollipop lollipop
+                                                    chocolate. Ice cream cookie dragée cake sweet roll sweet roll.Lemon
+                                                    drops cookie muffin carrot cake chocolate marzipan gingerbread
+                                                    topping chocolate bar. Soufflé tiramisu pastry sweet dessert.</p>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
+                                        <div class="table-responsive">
+                                            <table class="table info-table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Specialty</td>
+                                                        <td>Vegetarian</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Ingredient Type</td>
+                                                        <td>Vegetarian</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Brand</td>
+                                                        <td>Lavian Exotique</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Form</td>
+                                                        <td>Bar Brownie</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Package Information</td>
+                                                        <td>Box</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Manufacturer</td>
+                                                        <td>Prayagh Nutri Product Pvt Ltd</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Item part number</td>
+                                                        <td>LE 014 - 20pcs Crème Bakes (Pack of 2)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Net Quantity</td>
+                                                        <td>40.00 count</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="care" role="tabpanel" aria-labelledby="care-tab">
+                                        <div class="information-box">
+                                            <ul>
+                                                <li>Store cream cakes in a refrigerator. Fondant cakes should be
+                                                    stored in an air conditioned environment.</li>
+
+                                                <li>Slice and serve the cake at room temperature and make sure
+                                                    it is not exposed to heat.</li>
+
+                                                <li>Use a serrated knife to cut a fondant cake.</li>
+
+                                                <li>Sculptural elements and figurines may contain wire supports
+                                                    or toothpicks or wooden skewers for support.</li>
+
+                                                <li>Please check the placement of these items before serving to
+                                                    small children.</li>
+
+                                                <li>The cake should be consumed within 24 hours.</li>
+
+                                                <li>Enjoy your cake!</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                                        <div class="review-box">
+                                            <div class="row g-4">
+                                                <div class="col-xl-6">
+                                                    <div class="review-title">
+                                                        <h4 class="fw-500">Customer reviews</h4>
+                                                    </div>
+
+                                                    <div class="d-flex">
+                                                        <div class="product-rating">
+                                                            <ul class="rating">
+                                                                <li>
+                                                                    <i data-feather="star" class="fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i data-feather="star" class="fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i data-feather="star" class="fill"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i data-feather="star"></i>
+                                                                </li>
+                                                                <li>
+                                                                    <i data-feather="star"></i>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <h6 class="ms-3">4.2 Out Of 5</h6>
+                                                    </div>
+
+                                                    <div class="rating-box">
+                                                        <ul>
+                                                            <li>
+                                                                <div class="rating-list">
+                                                                    <h5>5 Star</h5>
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar" role="progressbar"
+                                                                            style="width: 68%" aria-valuenow="100"
+                                                                            aria-valuemin="0" aria-valuemax="100">68%
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+
+                                                            <li>
+                                                                <div class="rating-list">
+                                                                    <h5>4 Star</h5>
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar" role="progressbar"
+                                                                            style="width: 67%" aria-valuenow="100"
+                                                                            aria-valuemin="0" aria-valuemax="100">67%
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+
+                                                            <li>
+                                                                <div class="rating-list">
+                                                                    <h5>3 Star</h5>
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar" role="progressbar"
+                                                                            style="width: 42%" aria-valuenow="100"
+                                                                            aria-valuemin="0" aria-valuemax="100">42%
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+
+                                                            <li>
+                                                                <div class="rating-list">
+                                                                    <h5>2 Star</h5>
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar" role="progressbar"
+                                                                            style="width: 30%" aria-valuenow="100"
+                                                                            aria-valuemin="0" aria-valuemax="100">30%
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+
+                                                            <li>
+                                                                <div class="rating-list">
+                                                                    <h5>1 Star</h5>
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar" role="progressbar"
+                                                                            style="width: 24%" aria-valuenow="100"
+                                                                            aria-valuemin="0" aria-valuemax="100">24%
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-xl-6">
+                                                    <div class="review-title">
+                                                        <h4 class="fw-500">Add a review</h4>
+                                                    </div>
+
+                                                    <div class="row g-4">
+                                                        <div class="col-md-6">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <input type="text" class="form-control" id="name"
+                                                                    placeholder="Name">
+                                                                <label for="name">Your Name</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <input type="email" class="form-control" id="email"
+                                                                    placeholder="Email Address">
+                                                                <label for="email">Email Address</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <input type="url" class="form-control" id="website"
+                                                                    placeholder="Website">
+                                                                <label for="website">Website</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <input type="url" class="form-control" id="review1"
+                                                                    placeholder="Give your review a title">
+                                                                <label for="review1">Review Title</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <div class="form-floating theme-form-floating">
+                                                                <textarea class="form-control"
+                                                                    placeholder="Leave a comment here"
+                                                                    id="floatingTextarea2"
+                                                                    style="height: 150px"></textarea>
+                                                                <label for="floatingTextarea2">Write Your
+                                                                    Comment</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="review-title">
+                                                        <h4 class="fw-500">Customer questions & answers</h4>
+                                                    </div>
+
+                                                    <div class="review-people">
+                                                        <ul class="review-list">
+                                                            <li>
+                                                                <div class="people-box">
+                                                                    <div>
+                                                                        <div class="people-image">
+                                                                            <img src="https://themes.pixelstrap.com/fastkart/assets/images/review/1.jpg"
+                                                                                class="img-fluid blur-up lazyload"
+                                                                                alt="">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="people-comment">
+                                                                        <a class="name"
+                                                                            href="javascript:void(0)">Tracey</a>
+                                                                        <div class="date-time">
+                                                                            <h6 class="text-content">14 Jan, 2022 at
+                                                                                12.58 AM</h6>
+
+                                                                            <div class="product-rating">
+                                                                                <ul class="rating">
+                                                                                    <li>
+                                                                                        <i data-feather="star"
+                                                                                            class="fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"
+                                                                                            class="fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"
+                                                                                            class="fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"></i>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="reply">
+                                                                            <p>Icing cookie carrot cake chocolate cake
+                                                                                sugar plum jelly-o danish. Dragée dragée
+                                                                                shortbread tootsie roll croissant muffin
+                                                                                cake I love gummi bears. Candy canes ice
+                                                                                cream caramels tiramisu marshmallow cake
+                                                                                shortbread candy canes cookie.<a
+                                                                                    href="javascript:void(0)">Reply</a>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+
+                                                            <li>
+                                                                <div class="people-box">
+                                                                    <div>
+                                                                        <div class="people-image">
+                                                                            <img src="https://themes.pixelstrap.com/fastkart/assets/images/review/2.jpg"
+                                                                                class="img-fluid blur-up lazyload"
+                                                                                alt="">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="people-comment">
+                                                                        <a class="name"
+                                                                            href="javascript:void(0)">Olivia</a>
+                                                                        <div class="date-time">
+                                                                            <h6 class="text-content">01 May, 2022 at
+                                                                                08.31 AM</h6>
+                                                                            <div class="product-rating">
+                                                                                <ul class="rating">
+                                                                                    <li>
+                                                                                        <i data-feather="star"
+                                                                                            class="fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"
+                                                                                            class="fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"
+                                                                                            class="fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"></i>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="reply">
+                                                                            <p>Tootsie roll cake danish halvah powder
+                                                                                cake. Tootsie roll candy marshmallow
+                                                                                cookie brownie apple pie pudding brownie
+                                                                                chocolate bar. Jujubes gummi bears I
+                                                                                love powder danish oat cake tart
+                                                                                croissant.<a
+                                                                                    href="javascript:void(0)">Reply</a>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+
+                                                            <li>
+                                                                <div class="people-box">
+                                                                    <div>
+                                                                        <div class="people-image">
+                                                                            <img src="https://themes.pixelstrap.com/fastkart/assets/images/review/3.jpg"
+                                                                                class="img-fluid blur-up lazyload"
+                                                                                alt="">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="people-comment">
+                                                                        <a class="name"
+                                                                            href="javascript:void(0)">Gabrielle</a>
+                                                                        <div class="date-time">
+                                                                            <h6 class="text-content">21 May, 2022 at
+                                                                                05.52 PM</h6>
+
+                                                                            <div class="product-rating">
+                                                                                <ul class="rating">
+                                                                                    <li>
+                                                                                        <i data-feather="star"
+                                                                                            class="fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"
+                                                                                            class="fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"
+                                                                                            class="fill"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"></i>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i data-feather="star"></i>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="reply">
+                                                                            <p>Biscuit chupa chups gummies powder I love
+                                                                                sweet pudding jelly beans. Lemon drops
+                                                                                marzipan apple pie gingerbread macaroon
+                                                                                croissant cotton candy pastry wafer.
+                                                                                Carrot cake halvah I love tart caramels
+                                                                                pudding icing chocolate gummi bears.
+                                                                                Gummi bears danish cotton candy muffin
+                                                                                marzipan caramels awesome feel. <a
+                                                                                    href="javascript:void(0)">Reply</a>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</div>
+    <!-- Product Left Sidebar End -->
+</div>
+
+<style>
+    #product-box{
+        position: relative;
+height: 275px;;
+    }
+#add-to-cart-box{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    text-align: center;
+}
+#addcartrelated{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #57a300;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+.product-wrapper .slick-dots li.slick-active button {
+    background-color: #57a300;
+
+ 
+}
+
+@media (max-width: 475px){
+    #product-box{
+        height: 250px;;
+    }
+}
+@media (min-width: 1800px) and (max-width: 2200px) { 
+    #product-box{
+        height: 300px;
+    }
+}
+</style>
+    <!-- Releted Product Section Start -->
+    <section class="product-list-section section-b-space">
+        <div class="container-fluid-lg col-lg-12">
+          <div class="title">
+            <h2>Related Products</h2>
+            <!--{% comment %} <span class="title-leaf">
+              <svg class="icon-width">
+                <use xlink:href="https://themes.pixelstrap.com/fastkart/assets/svg/leaf.svg#leaf"></use>
+              </svg>
+            </span> {% endcomment %}-->
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="slider-6_1 product-wrapper">
+                {% for topsaves in topsave %}
+                <div>
+                  <div id="product-box" class="product-box-3 wow fadeInUp">
+                    <div class="product-header">
+                      <div class="product-image">
+                        <a href="{% url 'user:product' topsaves.id %}">
+                          <img src="{{ topsaves.image.url }}" class="img-fluid blur-up lazyload" alt="">
+                        </a>
+                      </div>
+                    </div>
+                    <div class="product-footer">
+                      <div class="product-detail">
+                        <a href="">
+                          <h5 class="name">{{ topsaves.product }}</h5>
+                        </a>
+                        <!--{% comment %} <div class="product-rating mt-2">
+                            <ul class="rating">
+                                <li>
+                                    <i data-feather="star" class="fill"></i>
+                                </li>
+                                <li>
+                                    <i data-feather="star" class="fill"></i>
+                                </li>
+                                <li>
+                                    <i data-feather="star" class="fill"></i>
+                                </li>
+                                <li>
+                                    <i data-feather="star" class="fill"></i>
+                                </li>
+                                <li>
+                                    <i data-feather="star" class="fill"></i>
+                                </li>
+                            </ul>
+                            <span>(5.0)</span>
+                        </div> {% endcomment %}-->
+                        <!--{% comment %} <h6 class="unit">500 G</h6> {% endcomment %}-->
+                        <div id="relatedflex">
+                            <h5 class="price">
+                                <span class="theme-color">Rs {{ topsaves.old_price }}</span>
+                                <del>Rs {{ topsaves.new_price }}</del>
+                            </h5> 
+                             <div id="add-to-cart-box"  class="add-to-cart-box">
+                                <a  onclick="addToCart({{ topsaves.id }})">
+                                    <button id="addcartrelated" class="btn btn-add-cart">Add To Cart</button>
+                                </a>
+                            </div>
+                        </div>
+                      
+                      </div>
+                
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    <!-- Releted Product Section End -->
+
+    <!-- Footer Section Start -->
+ 
+
+ 
+
+   
+
+    <!-- Add to cart Modal Start -->
+    <div class="add-cart-box">
+        <div class="add-iamge">
+            <img src="https://themes.pixelstrap.com/fastkart/assets/images/cake/pro/1.jpg" class="img-fluid" alt="">
+        </div>
+
+        <div class="add-contain">
+            <h6>Added to Cart</h6>
+        </div>
+    </div>
+    <!-- Add to cart Modal End -->
+
+    <!-- Tap to top start -->
+    <div class="theme-option theme-option-2">
+        <div class="setting-box">
+            <!-- <button class="btn setting-button">
+                <i class="fa-solid fa-gear"></i>
+            </button> -->
+
+            <div class="theme-setting-2">
+                <div class="theme-box">
+                    <ul>
+                        <li>
+                            <div class="setting-name">
+                                <h4>Color</h4>
+                            </div>
+                            <div class="theme-setting-button color-picker">
+                                <form class="form-control">
+                                    <label for="colorPick" class="form-label mb-0">Theme Color</label>
+                                    <input type="color" class="form-control form-control-color" id="colorPick"
+                                        value="#0da487" title="Choose your color">
+                                </form>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="setting-name">
+                                <h4>Dark</h4>
+                            </div>
+                            <div class="theme-setting-button">
+                                <button class="btn btn-2 outline" id="darkButton">Dark</button>
+                                <button class="btn btn-2 unline" id="lightButton">Light</button>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="setting-name">
+                                <h4>RTL</h4>
+                            </div>
+                            <div class="theme-setting-button rtl">
+                                <button class="btn btn-2 rtl-unline">LTR</button>
+                                <button class="btn btn-2 rtl-outline">RTL</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-to-top">
+            <a id="back-to-top" href="#">
+                <i class="fas fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <!-- Tap to top end -->
+
+    <!-- Sticky Cart Box Start -->
+    <div class="sticky-bottom-cart">
+        <div class="container-fluid-lg">
+            <div class="row">
+                <div class="col-12">
+                    <!-- <div class="cart-content">
+                        <div class="product-image">
+                            <img src="https://themes.pixelstrap.com/fastkart/assets/images/product/category/1.jpg"
+                                class="img-fluid blur-up lazyload" alt="">
+                            <div class="content">
+                                <h5>Creamy Chocolate Cake</h5>
+                                <h6>$32.96<del class="text-danger">$96.00</del><span>55% off</span></h6>
+                            </div>
+                        </div>
+                        <div class="selection-section">
+                            <div class="form-group mb-0">
+                                <select id="input-state" class="form-control form-select">
+                                    <button type="button" class="qty-right-plus" data-type="plus" data-field="">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="add-btn">
+                            <a class="btn theme-bg-color text-white wishlist-btn" href="wishlist.html"><i
+                                    class="fa fa-bookmark"></i> Wishlist</a>
+                            <a class="btn theme-bg-color text-white" href="cart.html"><i
+                                    class="fas fa-shopping-cart"></i> Add To Cart</a>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sticky Cart Box End -->
+
+    <!-- Bg overlay Start -->
+    <div class="bg-overlay"></div>
+    <!-- Bg overlay End -->
+
+
+
+
+
+
+<style>
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        border: 1px solid #e2e2e2;
+        padding: 20px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        max-width: 300px;
+        width: 100%;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    .popup-message {
+        font-size: 18px;
+        line-height: 1.4;
+        margin: 0;
+        color: #333333;
+    }
+
+    .popup-button {
+        margin-top: 20px;
+    }
+
+    .popup-button button {
+        background-color: #fd7d24;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .popup-button button:hover {
+        background-color: #ff933a;
+    }
+
+    #sectionpad{
+        padding-top:40px;
+    }
+
+</style>
+<script>
+
+    function addToCart(id) {
+        $.ajax({
+            url: '/addtocart/',
+            type: 'POST',
+            data: {
+                'count': $('#cartCount').html(),
+                'id': id,
+            },
+            success: function (responce) {
+                $('#cartCount').html(responce.cartcount);
+
+                var popup = document.createElement("div");
+                popup.className = "popup";
+                var message = document.createElement("p");
+                message.className = "popup-message";
+                message.textContent = "Product added to cart!";
+                popup.appendChild(message);
+                document.body.appendChild(popup);
+
+                // Remove the popup after a certain time (e.g., 3 seconds)
+                setTimeout(function () {
+                    document.body.removeChild(popup);
+                }, 1000);
+            
+                // window.location.reload()
+            }
+        });
+    }
+
+
+</script>
+
+{% endblock %}
